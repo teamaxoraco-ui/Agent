@@ -1,0 +1,82 @@
+{
+  "type": "SettingsConfiguration",
+  "audio": {
+    "input": {
+      "encoding": "mulaw",
+      "sample_rate": 8000
+    },
+    "output": {
+      "encoding": "mulaw",
+      "sample_rate": 8000,
+      "container": "none"
+    }
+  },
+  "agent": {
+    "listen": {
+      "model": "nova-2",
+      "language": "en-US"
+    },
+    "think": {
+      "provider": {
+        "type": "open_ai"
+      },
+      "model": "gpt-4o-mini",
+      "instructions": "You are a helpful pharmacy assistant for MedCare Pharmacy. You can check drug prices, stock availability, and help customers place orders. Be friendly, concise, and professional. Always confirm orders before processing them.",
+      "functions": [
+        {
+          "name": "get_drug_info",
+          "description": "Get the price and stock availability of a specific drug or medication",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "drug_name": {
+                "type": "string",
+                "description": "The name of the drug to look up (e.g., aspirin, ibuprofen, acetaminophen)"
+              }
+            },
+            "required": ["drug_name"]
+          }
+        },
+        {
+          "name": "place_order",
+          "description": "Place an order for a specific drug",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "drug_name": {
+                "type": "string",
+                "description": "The name of the drug to order"
+              },
+              "quantity": {
+                "type": "integer",
+                "description": "The quantity to order"
+              },
+              "customer_name": {
+                "type": "string",
+                "description": "The customer's name for the order"
+              }
+            },
+            "required": ["drug_name", "quantity", "customer_name"]
+          }
+        },
+        {
+          "name": "check_order_status",
+          "description": "Check the status of an existing order by order ID",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "order_id": {
+                "type": "string",
+                "description": "The order ID to look up"
+              }
+            },
+            "required": ["order_id"]
+          }
+        }
+      ]
+    },
+    "speak": {
+      "model": "aura-asteria-en"
+    }
+  }
+}
