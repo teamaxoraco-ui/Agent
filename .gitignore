@@ -26,10 +26,3 @@ Thumbs.db
 start-production.bat
 install-service.bat
 stop.bat
-
-# Secrets
-*secret*.txt
-*token*.txt
-*api_key*.txt
-ngrok_*.txt
-Deepgram_*.txt
