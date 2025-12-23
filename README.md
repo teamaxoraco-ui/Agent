@@ -2,87 +2,57 @@
 
 A real-time AI Voice Agent using **Python**, **Twilio**, and **Deepgram**. Customers call a phone number and interact with an AI-powered pharmacy assistant.
 
+## 🚀 Quick Deploy
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
 ## Architecture
 
 ```
 Caller → Twilio → This Server → Deepgram AI → Response → Twilio → Caller
 ```
 
-## Quick Start
+## Setup
 
-### 1. Prerequisites
+### 1. Deploy to Render.com
+1. Fork this repo
+2. Go to [render.com](https://render.com) → New → Web Service
+3. Connect your GitHub repo
+4. Add environment variable: `DEEPGRAM_API_KEY`
+5. Deploy!
 
-- Python 3.9+
-- [Deepgram Account](https://deepgram.com) (free $200 credit)
-- [Twilio Account](https://twilio.com) + Phone Number (~$1.15)
-- [ngrok](https://ngrok.com) (free)
-
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Configure Environment
-
-```bash
-cp .env.example .env
-# Edit .env and add your DEEPGRAM_API_KEY
-```
-
-### 4. Configure Twilio
-
-1. Go to **Twilio Console** → **Developer Tools** → **TwiML Bins**
-2. Create a new bin named "Voice Agent" with this XML:
-
+### 2. Configure Twilio
+Create a TwiML Bin with:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
     <Say>Connecting you to the AI Assistant.</Say>
     <Connect>
-        <Stream url="wss://YOUR-NGROK-URL.ngrok-free.app/twilio" />
+        <Stream url="wss://YOUR-RENDER-URL.onrender.com/twilio" />
     </Connect>
 </Response>
 ```
 
-3. Go to **Phone Numbers** → **Manage** → **Active Numbers**
-4. Set "A Call Comes In" → **TwiML Bin** → Select your bin
+Set your Twilio phone number to use this TwiML Bin.
 
-### 5. Run
-
-Terminal 1:
-```bash
-ngrok http 5000
-```
-
-Terminal 2:
-```bash
-python main.py
-```
-
-Update your TwiML Bin with the ngrok URL, then **call your Twilio number!**
+### 3. Call Your Number! 📞
 
 ## Project Structure
 
 ```
-├── main.py                 # WebSocket server (Twilio ↔ Deepgram bridge)
+├── main.py                 # WebSocket server
 ├── config.json             # AI agent configuration
-├── pharmacy_functions.py   # Custom tools the AI can use
-├── requirements.txt        # Python dependencies
-├── .env.example            # Environment variables template
-└── README.md               # This file
+├── pharmacy_functions.py   # Custom tools
+├── Dockerfile              # Container config
+├── render.yaml             # Render deployment
+└── requirements.txt        # Dependencies
 ```
 
 ## Customization
 
-### Change the AI Personality
+- **AI Personality:** Edit `config.json` → `agent.think.instructions`
+- **Add Functions:** Add to `pharmacy_functions.py` and register in `config.json`
 
-Edit `config.json` → `agent.think.instructions`
+---
 
-### Add New Functions
-
-1. Add function to `pharmacy_functions.py`
-2. Register in `execute_function()` dispatcher
-3. Add schema to `config.json` → `agent.think.functions`
-
-## Built with ❤️ by Axoraco
+Built with ❤️ by **Axoraco**
