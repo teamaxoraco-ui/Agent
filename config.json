@@ -21,56 +21,130 @@
         "type": "open_ai"
       },
       "model": "gpt-4o-mini",
-      "instructions": "You are a helpful pharmacy assistant for MedCare Pharmacy. You can check drug prices, stock availability, and help customers place orders. Be friendly, concise, and professional. Always confirm orders before processing them.",
+      "instructions": "You are a professional AI receptionist for Axoraco Visa Consultants. You help callers with:\n\n1. BOOKING APPOINTMENTS - Schedule consultations for visa services\n2. VISA INFORMATION - Provide details about different visa types and requirements\n3. SERVICE INQUIRIES - Answer questions about our consulting services and fees\n4. EXISTING APPOINTMENTS - Check, reschedule, or cancel appointments\n\nBe warm, professional, and helpful. Speak clearly and concisely. Always confirm details before booking. If you don't know something, offer to have a consultant call them back.\n\nOur services include: Tourist Visa, Student Visa, Work Visa, Business Visa, and Immigration Consulting.\n\nOffice hours: Monday-Friday 9AM-6PM, Saturday 10AM-2PM.",
       "functions": [
         {
-          "name": "get_drug_info",
-          "description": "Get the price and stock availability of a specific drug or medication",
+          "name": "get_available_slots",
+          "description": "Get available appointment slots for a specific date",
           "parameters": {
             "type": "object",
             "properties": {
-              "drug_name": {
+              "date": {
                 "type": "string",
-                "description": "The name of the drug to look up (e.g., aspirin, ibuprofen, acetaminophen)"
+                "description": "The date to check availability (e.g., 'tomorrow', 'Monday', 'December 26')"
+              },
+              "visa_type": {
+                "type": "string",
+                "description": "Type of visa consultation needed (tourist, student, work, business, immigration)"
               }
             },
-            "required": ["drug_name"]
+            "required": ["date"]
           }
         },
         {
-          "name": "place_order",
-          "description": "Place an order for a specific drug",
+          "name": "book_appointment",
+          "description": "Book a consultation appointment",
           "parameters": {
             "type": "object",
             "properties": {
-              "drug_name": {
-                "type": "string",
-                "description": "The name of the drug to order"
-              },
-              "quantity": {
-                "type": "integer",
-                "description": "The quantity to order"
-              },
               "customer_name": {
                 "type": "string",
-                "description": "The customer's name for the order"
+                "description": "Full name of the customer"
+              },
+              "phone_number": {
+                "type": "string",
+                "description": "Customer's phone number for confirmation"
+              },
+              "date": {
+                "type": "string",
+                "description": "Preferred appointment date"
+              },
+              "time": {
+                "type": "string",
+                "description": "Preferred appointment time"
+              },
+              "visa_type": {
+                "type": "string",
+                "description": "Type of visa consultation (tourist, student, work, business, immigration)"
               }
             },
-            "required": ["drug_name", "quantity", "customer_name"]
+            "required": ["customer_name", "phone_number", "date", "time", "visa_type"]
           }
         },
         {
-          "name": "check_order_status",
-          "description": "Check the status of an existing order by order ID",
+          "name": "get_visa_info",
+          "description": "Get information about a specific visa type including requirements and fees",
           "parameters": {
             "type": "object",
             "properties": {
-              "order_id": {
+              "visa_type": {
                 "type": "string",
-                "description": "The order ID to look up"
+                "description": "Type of visa to get information about"
+              },
+              "destination_country": {
+                "type": "string",
+                "description": "The country the caller wants to travel to"
               }
             },
-            "required": ["order_id"]
+            "required": ["visa_type"]
+          }
+        },
+        {
+          "name": "check_appointment",
+          "description": "Check details of an existing appointment",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "confirmation_code": {
+                "type": "string",
+                "description": "The appointment confirmation code"
+              },
+              "phone_number": {
+                "type": "string",
+                "description": "Phone number used for booking"
+              }
+            },
+            "required": []
+          }
+        },
+        {
+          "name": "cancel_appointment",
+          "description": "Cancel an existing appointment",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "confirmation_code": {
+                "type": "string",
+                "description": "The appointment confirmation code to cancel"
+              },
+              "reason": {
+                "type": "string",
+                "description": "Reason for cancellation"
+              }
+            },
+            "required": ["confirmation_code"]
+          }
+        },
+        {
+          "name": "request_callback",
+          "description": "Request a callback from a visa consultant",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "customer_name": {
+                "type": "string",
+                "description": "Customer's name"
+              },
+              "phone_number": {
+                "type": "string",
+                "description": "Phone number to call back"
+              },
+              "inquiry_type": {
+                "type": "string",
+                "description": "Brief description of what they need help with"
+              }
+            },
+            "required": ["customer_name", "phone_number"]
           }
         }
       ]

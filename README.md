@@ -1,57 +1,53 @@
-# 🤖 AI Voice Agent
+# 🌍 AI Voice Agent - Visa Consultant
 
-A real-time AI Voice Agent using **Python**, **Twilio**, and **Deepgram**. Customers call a phone number and interact with an AI-powered pharmacy assistant.
+An AI-powered phone receptionist for **Axoraco Visa Consultants**. Callers can book appointments, get visa information, and request callbacks - all through natural voice conversation.
 
-## 🚀 Quick Deploy
+## 🚀 Live Demo
+
+**Call:** Your Twilio Number  
+**Powered by:** Deepgram AI + Twilio
+
+## Features
+
+- 📅 **Book Appointments** - Schedule visa consultations
+- ℹ️ **Visa Information** - Get requirements & fees for any visa type
+- 🔄 **Manage Bookings** - Check, reschedule, or cancel appointments
+- 📞 **Request Callback** - Get a consultant to call you back
+
+## Visa Types Supported
+
+| Type | Consultation Fee | Processing Time |
+|------|-----------------|-----------------|
+| Tourist | $50 | 5-15 days |
+| Student | $75 | 2-8 weeks |
+| Work | $100 | 4-12 weeks |
+| Business | $75 | 1-4 weeks |
+| Immigration | $150 | Varies |
+
+## Quick Deploy
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
 
-## Architecture
-
+### Environment Variables
 ```
-Caller → Twilio → This Server → Deepgram AI → Response → Twilio → Caller
+DEEPGRAM_API_KEY=your_key_here
 ```
-
-## Setup
-
-### 1. Deploy to Render.com
-1. Fork this repo
-2. Go to [render.com](https://render.com) → New → Web Service
-3. Connect your GitHub repo
-4. Add environment variable: `DEEPGRAM_API_KEY`
-5. Deploy!
-
-### 2. Configure Twilio
-Create a TwiML Bin with:
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-    <Say>Connecting you to the AI Assistant.</Say>
-    <Connect>
-        <Stream url="wss://YOUR-RENDER-URL.onrender.com/twilio" />
-    </Connect>
-</Response>
-```
-
-Set your Twilio phone number to use this TwiML Bin.
-
-### 3. Call Your Number! 📞
 
 ## Project Structure
 
 ```
-├── main.py                 # WebSocket server
-├── config.json             # AI agent configuration
-├── pharmacy_functions.py   # Custom tools
-├── Dockerfile              # Container config
-├── render.yaml             # Render deployment
-└── requirements.txt        # Dependencies
+├── main.py                    # WebSocket server
+├── config.json                # AI personality & functions
+├── appointment_functions.py   # Booking & info handlers
+├── Dockerfile                 # Container config
+└── requirements.txt           # Dependencies
 ```
 
 ## Customization
 
-- **AI Personality:** Edit `config.json` → `agent.think.instructions`
-- **Add Functions:** Add to `pharmacy_functions.py` and register in `config.json`
+- **Business Name:** Edit `config.json` → `instructions`
+- **Services:** Modify `VISA_INFO` in `appointment_functions.py`
+- **Hours:** Update `BUSINESS_HOURS` dictionary
 
 ---
 

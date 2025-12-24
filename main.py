@@ -16,7 +16,7 @@ import logging
 from aiohttp import web, WSMsgType
 import aiohttp
 
-from pharmacy_functions import execute_function
+from appointment_functions import execute_function
 
 # =============================================================================
 # CONFIGURATION
